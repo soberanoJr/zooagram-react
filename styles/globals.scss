@@ -1,6 +1,8 @@
+@import 'variables.scss';
+
 * {
-  font-family: 'Roboto Regular';
-  font-size: 14px;
+  font-family: $font_regular;
+  font-size: 16px;
 }
 
 @import '../public/fonts/fonts.scss';

@@ -5,9 +5,13 @@
   font-size: 16px;
 }
 
-*avatar {
+.avatar {
   border-radius: 50%;
   object-fit: cover;
+}
+
+.hidden {
+  display: none;
 }
 
 @import '../public/fonts/fonts.scss';

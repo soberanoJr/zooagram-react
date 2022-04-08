@@ -5,6 +5,11 @@
   font-size: 16px;
 }
 
+html, body, #__next {
+  height: 100%;
+  margin: 0;
+}
+
 .avatar {
   border-radius: 50%;
   object-fit: cover;
@@ -14,5 +19,27 @@
   display: none;
 }
 
+input {
+  &::placeholder {
+    // Chrome, Firefox, Opera,Safari
+    color: $primary_color_3;
+    opacity: 1;
+  }
+
+  &:-ms-input-placeholder {
+    // IE 10/11
+    color: $primary_color_3;
+    opacity: 1;
+  }
+
+  &::-ms-input-placeholder {
+    // Edge
+    color: $primary_color_3;
+    opacity: 1;
+  }
+}
+
 @import '../public/fonts/fonts.scss';
 @import '../components/button/button.scss';
+@import './publicPage.scss';
+@import '../components/publicInput/publicInput.scss';

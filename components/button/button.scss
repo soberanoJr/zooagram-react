@@ -4,14 +4,13 @@
 }
 
 @mixin outlined_button {
-    background-color: white;
+    background-color: $primary_color_2;
     color: $primary_color;
     font-weight: bold;
-    border: 2px solid $primary_color;
 }
 
 .btn {
-    width: 100%; // 100%
+    width: 100%;
     border: none;
     border-radius: 4px;
     cursor: pointer;

@@ -39,7 +39,24 @@ input {
   }
 }
 
+.desktop {
+  display: block;
+
+  @media screen and (max-width: calc($desktop_breakpoint - 1px)) {
+    display: none;
+  }
+}
+
+.mobile {
+  display: block;
+
+  @media screen and (min-width: $desktop_breakpoint) {
+    display: none;
+  }
+}
+
 @import '../public/fonts/fonts.scss';
 @import '../components/button/button.scss';
 @import './publicPage.scss';
 @import '../components/publicInput/publicInput.scss';
+@import '../pages/register/register.scss';

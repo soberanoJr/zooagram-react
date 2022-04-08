@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { useEffect } from "react";
 
-export function ImageUploader({
+export default function ImageUploader({
     className = '',
     setImage,
     imagePreview,
@@ -33,7 +33,7 @@ export function ImageUploader({
         }
     }
     return (
-        <div className={`ImageUploaderContainer ${className}`} onClick={openFileSelector}>
+        <div className={`imageUploaderContainer ${className}`} onClick={openFileSelector}>
             {imagePreview && (
                 <div className="imagePreviewContainer">
                     <img

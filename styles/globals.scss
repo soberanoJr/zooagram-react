@@ -55,6 +55,15 @@ input {
   }
 }
 
+.validationMessage {
+  display: block;
+  color: red;
+  font-size: 90%;
+  font-weight: bold;
+  margin-top: -16px;
+  margin-bottom: 16px;
+}
+
 @import '../public/fonts/fonts.scss';
 @import '../components/button/button.scss';
 @import './publicPage.scss';

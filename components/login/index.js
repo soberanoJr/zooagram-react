@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import PublicInput from "../publicInput";
 
+import { emailValidator, passwordValidator } from '../../utils/validators'
 import key from "../../public/images/key.svg"
 import logo from "../../public/images/zebra.png"
 import mail from "../../public/images/mail.svg"
@@ -12,6 +13,13 @@ import zooagram from "../../public/images/zooagram.png"
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    
+    const formValidation = () => {
+        return (
+            emailValidator(email) && 
+            passwordValidator(password)
+        )
+    } 
 
     return (
         <section className={`loginSection publicPage`}>
@@ -39,6 +47,8 @@ export default function Login() {
                         type="email"
                         onChange={e => setEmail(e.target.value)}
                         value={email}
+                        validationMessage="Invalid e-mail address."
+                        showValidationMessage={email && !emailValidator(email)}
                     />
                     <PublicInput 
                         image={key}
@@ -46,11 +56,13 @@ export default function Login() {
                         type="password"
                         onChange={e => setPassword(e.target.value)}
                         value={password}
+                        validationMessage="Too short"
+                        showValidationMessage={password && !passwordValidator(password)}
                     />
                     <Button 
                         text="Login"
                         type="submit"
-                        disabled={false}
+                        disabled={!formValidation()}
                     />
                 </form>
                 <div className="publicPageFooter">

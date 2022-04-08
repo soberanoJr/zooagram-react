@@ -5,6 +5,7 @@ import Link from "next/link";
 import PublicInput from "../../components/publicInput";
 import ImageUploader from "../../components/imageUploader"
 
+import { nameValidator, emailValidator, passwordValidator, passwordConfirmationValidator } from '../../utils/validators'
 import key from "../../public/images/key.svg"
 import logo from "../../public/images/zebra.png"
 import mail from "../../public/images/mail.svg"
@@ -18,6 +19,14 @@ export default function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
+
+    const formValidation = () => {
+        return (
+            emailValidator(email) && 
+            passwordValidator(password) &&
+            passwordConfirmationValidator(password, passwordConfirmation)
+        )
+    } 
 
     return (
         <section className={`registerSection publicPage`}>
@@ -50,6 +59,8 @@ export default function Register() {
                         type="text"
                         onChange={e => setName(e.target.value)}
                         value={name}
+                        validationMessage="Too short."
+                        showValidationMessage={name && !nameValidator(name)}
                     />
                     <PublicInput 
                         image={mail}
@@ -57,6 +68,8 @@ export default function Register() {
                         type="email"
                         onChange={e => setEmail(e.target.value)}
                         value={email}
+                        validationMessage="Invalid e-mail address."
+                        showValidationMessage={email && !emailValidator(email)}
                     />
                     <PublicInput 
                         image={key}
@@ -64,6 +77,9 @@ export default function Register() {
                         type="password"
                         onChange={e => setPassword(e.target.value)}
                         value={password}
+                        validationMessage="Too short"
+                        showValidationMessage={password && !passwordValidator(password)}
+
                     />
                     <PublicInput 
                         image={key}
@@ -71,11 +87,13 @@ export default function Register() {
                         type="password"
                         onChange={e => setPasswordConfirmation(e.target.value)}
                         value={passwordConfirmation}
+                        validationMessage="Passwords must match."
+                        showValidationMessage={passwordConfirmation && !passwordConfirmationValidator(password, passwordConfirmation)}
                     />
                     <Button 
                         text="Register"
                         type="submit"
-                        disabled={false}
+                        disabled={!formValidation()}
                     />
                 </form>
                 <div className="publicPageFooter">

@@ -1,6 +1,6 @@
 @mixin primary_button {
     background-color: $primary_color;
-    color: white;
+    color: #d3c483;
 }
 
 @mixin outlined_button {
@@ -32,6 +32,6 @@
     }
 
     &:disabled{
-        opacity: 0.5;
+        cursor:not-allowed;
     }
 }

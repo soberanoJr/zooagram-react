@@ -3,6 +3,7 @@ import Button from "../../components/button"
 import Image from "next/image";
 import Link from "next/link";
 import PublicInput from "../publicInput";
+import UserService from "../../services/UserService";
 
 import { emailValidator, passwordValidator } from '../../utils/validators'
 import key from "../../public/images/key.svg"
@@ -10,16 +11,37 @@ import logo from "../../public/images/zebra.png"
 import mail from "../../public/images/mail.svg"
 import zooagram from "../../public/images/zooagram.png"
 
+const userService = new UserService();
+
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    
+    const [isSubmiting, setIsSubmiting] = useState(false);
+
     const formValidation = () => {
         return (
             emailValidator(email) && 
             passwordValidator(password)
         )
-    } 
+    }
+
+    const onSubmitFormData = async (e) => {
+        e.preventDefault();
+        if (!formValidation()) {
+            return;
+        }
+        setIsSubmiting(true);
+        try {
+            await userService.login({
+                login: email,
+                password
+            });
+
+        } catch (e) {
+            alert("Error logging in." + e?.response?.data?.error);
+        }
+        setIsSubmiting(false);
+    }
 
     return (
         <section className={`loginSection publicPage`}>
@@ -40,7 +62,7 @@ export default function Login() {
                 </div>
             </div>
             <div className="publicPageContent">
-                <form>
+                <form onSubmit={onSubmitFormData}>
                     <PublicInput 
                         image={mail}
                         placeholder="E-mail"
@@ -62,7 +84,7 @@ export default function Login() {
                     <Button 
                         text="Login"
                         type="submit"
-                        disabled={!formValidation()}
+                        disabled={!formValidation() || isSubmiting}
                     />
                 </form>
                 <div className="publicPageFooter">

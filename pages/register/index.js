@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import PublicInput from "../../components/publicInput";
 import ImageUploader from "../../components/imageUploader"
+import UserService from "../../services/UserService";
 
 import { nameValidator, emailValidator, passwordValidator, passwordConfirmationValidator } from '../../utils/validators'
 import key from "../../public/images/key.svg"
@@ -13,12 +14,15 @@ import no_photo from "../../public/images/no_photo.svg"
 import user_active from "../../public/images/user_active.svg"
 import zooagram from "../../public/images/zooagram.png"
 
+const userService = new UserService();
+
 export default function Register() {
     const [image, setImage] = useState(null);
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
+    const [isSubmiting, setIsSubmiting] = useState(false);
 
     const formValidation = () => {
         return (
@@ -26,7 +30,29 @@ export default function Register() {
             passwordValidator(password) &&
             passwordConfirmationValidator(password, passwordConfirmation)
         )
-    } 
+    }
+    
+    const onSubmitFormData = async (e) => {
+        e.preventDefault();
+        if (!formValidation()) {
+            return;
+        }
+        setIsSubmiting(true);
+        try {
+            const registerPayload = new FormData();
+            registerPayload.append("name", name);
+            registerPayload.append("email", email);
+            registerPayload.append("password", password);
+            if (image?.file) {
+                registerPayload.append("file", image.file);
+            }
+            await userService.register(registerPayload);
+            alert(`Welcome, ${name}! ;-)`);
+        } catch (e) {
+            alert("This user could not be registered." + e?.response?.data?.error);
+        }
+        setIsSubmiting(false);
+    }
 
     return (
         <section className={`registerSection publicPage`}>
@@ -47,7 +73,7 @@ export default function Register() {
                 </div>
             </div>
             <div className="publicPageContent">
-                <form>
+                <form onSubmit={onSubmitFormData}>
                     <ImageUploader 
                         imagePreviewClassName="avatar avatarPreview"
                         imagePreview={image?.preview || no_photo.src} 
@@ -93,7 +119,7 @@ export default function Register() {
                     <Button 
                         text="Register"
                         type="submit"
-                        disabled={!formValidation()}
+                        disabled={!formValidation() || isSubmiting}
                     />
                 </form>
                 <div className="publicPageFooter">
